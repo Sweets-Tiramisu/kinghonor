@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="royal_web:war">
+    <output-path>$PROJECT_DIR$/royal_web/target</output-path>
+    <root id="archive" name="royal_web.war">
+      <element id="artifact" artifact-name="royal_web:war exploded" />
+    </root>
+  </artifact>
+</component>

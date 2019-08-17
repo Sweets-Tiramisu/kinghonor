@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbs.dao.CommentDao" >
+  <resultMap id="BaseResultMap" type="com.bbs.domain.Comment" >
+    <id column="commentId" property="commentid" jdbcType="INTEGER" />
+    <result column="commentContent" property="commentcontent" jdbcType="VARCHAR" />
+    <result column="commentTime" property="commenttime" jdbcType="TIMESTAMP" />
+    <result column="commentUserName" property="commentusername" jdbcType="VARCHAR" />
+    <result column="commentStatus" property="commentstatus" jdbcType="INTEGER" />
+    <result column="articleId" property="articleid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    commentId, commentContent, commentTime, commentUserName, commentStatus, articleId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bbs.domain.CommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bbs_comment_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bbs_comment_table
+    where commentId = #{commentid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bbs_comment_table
+    where commentId = #{commentid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bbs.domain.CommentExample" >
+    delete from bbs_comment_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bbs.domain.Comment" >
+    insert into bbs_comment_table (commentId, commentContent, commentTime, 
+      commentUserName, commentStatus, articleId
+      )
+    values (#{commentid,jdbcType=INTEGER}, #{commentcontent,jdbcType=VARCHAR}, #{commenttime,jdbcType=TIMESTAMP}, 
+      #{commentusername,jdbcType=VARCHAR}, #{commentstatus,jdbcType=INTEGER}, #{articleid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bbs.domain.Comment" >
+    insert into bbs_comment_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentid != null" >
+        commentId,
+      </if>
+      <if test="commentcontent != null" >
+        commentContent,
+      </if>
+      <if test="commenttime != null" >
+        commentTime,
+      </if>
+      <if test="commentusername != null" >
+        commentUserName,
+      </if>
+      <if test="commentstatus != null" >
+        commentStatus,
+      </if>
+      <if test="articleid != null" >
+        articleId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentid != null" >
+        #{commentid,jdbcType=INTEGER},
+      </if>
+      <if test="commentcontent != null" >
+        #{commentcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="commenttime != null" >
+        #{commenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentusername != null" >
+        #{commentusername,jdbcType=VARCHAR},
+      </if>
+      <if test="commentstatus != null" >
+        #{commentstatus,jdbcType=INTEGER},
+      </if>
+      <if test="articleid != null" >
+        #{articleid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bbs.domain.CommentExample" resultType="java.lang.Integer" >
+    select count(*) from bbs_comment_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bbs_comment_table
+    <set >
+      <if test="record.commentid != null" >
+        commentId = #{record.commentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentcontent != null" >
+        commentContent = #{record.commentcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commenttime != null" >
+        commentTime = #{record.commenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.commentusername != null" >
+        commentUserName = #{record.commentusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentstatus != null" >
+        commentStatus = #{record.commentstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleid != null" >
+        articleId = #{record.articleid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bbs_comment_table
+    set commentId = #{record.commentid,jdbcType=INTEGER},
+      commentContent = #{record.commentcontent,jdbcType=VARCHAR},
+      commentTime = #{record.commenttime,jdbcType=TIMESTAMP},
+      commentUserName = #{record.commentusername,jdbcType=VARCHAR},
+      commentStatus = #{record.commentstatus,jdbcType=INTEGER},
+      articleId = #{record.articleid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bbs.domain.Comment" >
+    update bbs_comment_table
+    <set >
+      <if test="commentcontent != null" >
+        commentContent = #{commentcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="commenttime != null" >
+        commentTime = #{commenttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentusername != null" >
+        commentUserName = #{commentusername,jdbcType=VARCHAR},
+      </if>
+      <if test="commentstatus != null" >
+        commentStatus = #{commentstatus,jdbcType=INTEGER},
+      </if>
+      <if test="articleid != null" >
+        articleId = #{articleid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where commentId = #{commentid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bbs.domain.Comment" >
+    update bbs_comment_table
+    set commentContent = #{commentcontent,jdbcType=VARCHAR},
+      commentTime = #{commenttime,jdbcType=TIMESTAMP},
+      commentUserName = #{commentusername,jdbcType=VARCHAR},
+      commentStatus = #{commentstatus,jdbcType=INTEGER},
+      articleId = #{articleid,jdbcType=INTEGER}
+    where commentId = #{commentid,jdbcType=INTEGER}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap" parameterType="Integer">
+    select * from bbs_comment_table where articleId = #{articleid} order by commentTime asc;
+  </select>
+</mapper>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbs.dao.UserDao" >
+  <resultMap id="BaseResultMap" type="com.bbs.domain.User" >
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="userPass" property="userpass" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="picUrl" property="picurl" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="INTEGER" />
+    <result column="lastLoginTime" property="lastlogintime" jdbcType="TIMESTAMP" />
+    <result column="loginStatus" property="loginstatus" jdbcType="INTEGER" />
+    <result column="talkStatus" property="talkstatus" jdbcType="INTEGER" />
+    <result column="isupdating" property="isupdating" jdbcType="INTEGER" />
+    <result column="updateStatus" property="updatestatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    userId, userName, userPass, email, picUrl, role, lastLoginTime, loginStatus, talkStatus, 
+    isupdating, updateStatus
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bbs.domain.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bbs_user_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bbs_user_table
+    where userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bbs_user_table
+    where userId = #{userid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bbs.domain.UserExample" >
+    delete from bbs_user_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bbs.domain.User" >
+    insert into bbs_user_table (userId, userName, userPass, 
+      email, picUrl, role, 
+      lastLoginTime, loginStatus, talkStatus, 
+      isupdating, updateStatus)
+    values (#{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{userpass,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{picurl,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, 
+      #{lastlogintime,jdbcType=TIMESTAMP}, #{loginstatus,jdbcType=INTEGER}, #{talkstatus,jdbcType=INTEGER}, 
+      #{isupdating,jdbcType=INTEGER}, #{updatestatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bbs.domain.User" >
+    insert into bbs_user_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="userpass != null" >
+        userPass,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="picurl != null" >
+        picUrl,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="lastlogintime != null" >
+        lastLoginTime,
+      </if>
+      <if test="loginstatus != null" >
+        loginStatus,
+      </if>
+      <if test="talkstatus != null" >
+        talkStatus,
+      </if>
+      <if test="isupdating != null" >
+        isupdating,
+      </if>
+      <if test="updatestatus != null" >
+        updateStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpass != null" >
+        #{userpass,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="picurl != null" >
+        #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="lastlogintime != null" >
+        #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginstatus != null" >
+        #{loginstatus,jdbcType=INTEGER},
+      </if>
+      <if test="talkstatus != null" >
+        #{talkstatus,jdbcType=INTEGER},
+      </if>
+      <if test="isupdating != null" >
+        #{isupdating,jdbcType=INTEGER},
+      </if>
+      <if test="updatestatus != null" >
+        #{updatestatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bbs.domain.UserExample" resultType="java.lang.Integer" >
+    select count(*) from bbs_user_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bbs_user_table
+    <set >
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        userName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userpass != null" >
+        userPass = #{record.userpass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picurl != null" >
+        picUrl = #{record.picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.role != null" >
+        role = #{record.role,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastlogintime != null" >
+        lastLoginTime = #{record.lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loginstatus != null" >
+        loginStatus = #{record.loginstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.talkstatus != null" >
+        talkStatus = #{record.talkstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.isupdating != null" >
+        isupdating = #{record.isupdating,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatestatus != null" >
+        updateStatus = #{record.updatestatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bbs_user_table
+    set userId = #{record.userid,jdbcType=INTEGER},
+      userName = #{record.username,jdbcType=VARCHAR},
+      userPass = #{record.userpass,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      picUrl = #{record.picurl,jdbcType=VARCHAR},
+      role = #{record.role,jdbcType=INTEGER},
+      lastLoginTime = #{record.lastlogintime,jdbcType=TIMESTAMP},
+      loginStatus = #{record.loginstatus,jdbcType=INTEGER},
+      talkStatus = #{record.talkstatus,jdbcType=INTEGER},
+      isupdating = #{record.isupdating,jdbcType=INTEGER},
+      updateStatus = #{record.updatestatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bbs.domain.User" >
+    update bbs_user_table
+    <set >
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpass != null" >
+        userPass = #{userpass,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="picurl != null" >
+        picUrl = #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="lastlogintime != null" >
+        lastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginstatus != null" >
+        loginStatus = #{loginstatus,jdbcType=INTEGER},
+      </if>
+      <if test="talkstatus != null" >
+        talkStatus = #{talkstatus,jdbcType=INTEGER},
+      </if>
+      <if test="isupdating != null" >
+        isupdating = #{isupdating,jdbcType=INTEGER},
+      </if>
+      <if test="updatestatus != null" >
+        updateStatus = #{updatestatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bbs.domain.User" >
+    update bbs_user_table
+    set userName = #{username,jdbcType=VARCHAR},
+      userPass = #{userpass,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      picUrl = #{picurl,jdbcType=VARCHAR},
+      role = #{role,jdbcType=INTEGER},
+      lastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      loginStatus = #{loginstatus,jdbcType=INTEGER},
+      talkStatus = #{talkstatus,jdbcType=INTEGER},
+      isupdating = #{isupdating,jdbcType=INTEGER},
+      updateStatus = #{updatestatus,jdbcType=INTEGER}
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateUserEmail" parameterType="com.bbs.domain.User">
+    update bbs_user_table set email = #{email} where userId = #{userid}
+  </update>
+
+  <select id="checkUserEmail" parameterType="com.bbs.domain.User" resultType="com.bbs.domain.User">
+    select * from bbs_user_table where email = #{email};
+  </select>
+
+  <update id="updateUserPicture" parameterType="com.bbs.domain.User" >
+    update bbs_user_table set picUrl = #{picurl} where userId = #{userid}
+  </update>
+
+  <select id="findUserInfo" parameterType="com.bbs.domain.User" resultType="com.bbs.domain.User">
+    select * from bbs_user_table where userId= #{userid}
+  </select>
+
+  <select id="findUserPicture" parameterType="com.bbs.domain.User" resultType="com.bbs.domain.User">
+    select * from bbs_user_table where userId = #{userid}
+  </select>
+
+  <update id="updateLoginTime" parameterType="com.bbs.domain.User" >
+  update bbs_user_table set lastLoginTime = #{lastlogintime} where username = #{username}
+</update>
+
+  <select id="login" parameterType="com.bbs.domain.User" resultType="com.bbs.domain.User">
+  Select * from bbs_user_table where userName = #{username} and userPass= #{userpass}
+</select>
+  <update id="updateLoginStatus" parameterType="map">
+  update bbs_user_table set loginStatus = #{loginstatus} where userId = #{userid}
+</update>
+  <select id="findPicByName" parameterType="com.bbs.domain.User" resultType="com.bbs.domain.User">
+    select * from bbs_user_table where userName = #{username}
+  </select>
+
+    <select id="checkUserPass" parameterType="com.bbs.domain.User" resultType="com.bbs.domain.User">
+        select * from bbs_user_table where userId=#{userid} and userPass = #{userpass}
+    </select>
+
+    <select id="findUserByName" parameterType="com.bbs.domain.User" resultType="com.bbs.domain.User">
+        select * from bbs_user_table where userName = #{username}
+    </select>
+
+    <insert id="userRegist" parameterType="com.bbs.domain.User">
+        <selectKey resultType="java.lang.Integer" keyProperty="userid" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into bbs_user_table(userId,userName,userPass,email,lastlogintime,talkstatus)
+        values(#{userid},#{username},#{userpass},#{email},#{lastlogintime},#{talkstatus})
+    </insert>
+
+  <update id="changeUserPass" parameterType="com.bbs.domain.User" >
+    update bbs_user_table set userPass = #{userpass} where userId = #{userid}
+  </update>
+</mapper>

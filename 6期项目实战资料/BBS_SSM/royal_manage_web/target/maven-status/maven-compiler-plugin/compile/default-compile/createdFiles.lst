@@ -1,0 +1,6 @@
+com\bbs\manage\controller\ReportController.class
+com\bbs\manage\controller\UserController.class
+com\bbs\manage\controller\ZoneApplyController.class
+com\bbs\manage\controller\WordController.class
+com\bbs\util\UserResponseResult.class
+com\bbs\manage\controller\ArticleController.class

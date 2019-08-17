@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbs.dao.ArticleDao" >
+  <resultMap id="BaseResultMap" type="com.bbs.domain.Article" >
+    <id column="articleId" property="articleid" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="senderName" property="sendername" jdbcType="VARCHAR" />
+    <result column="isTop" property="istop" jdbcType="INTEGER" />
+    <result column="replyCount" property="replycount" jdbcType="INTEGER" />
+    <result column="upvoteCount" property="upvotecount" jdbcType="INTEGER" />
+    <result column="browseCount" property="browsecount" jdbcType="INTEGER" />
+    <result column="zoneId" property="zoneid" jdbcType="INTEGER" />
+    <result column="isReport" property="isreport" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bbs.domain.Article" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    articleId, title, sendTime, senderName, isTop, replyCount, upvoteCount, browseCount,
+    zoneId, isReport
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.bbs.domain.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bbs_article_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bbs.domain.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bbs_article_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from bbs_article_table
+    where articleId = #{articleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bbs_article_table
+    where articleId = #{articleid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bbs.domain.ArticleExample" >
+    delete from bbs_article_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bbs.domain.Article" >
+    <selectKey resultType="java.lang.Integer" keyProperty="articleid" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bbs_article_table (articleId, title, sendTime,
+    senderName, isTop, replyCount,
+    upvoteCount, browseCount, zoneId,
+    isReport, content)
+    values (#{articleid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP},
+    #{sendername,jdbcType=VARCHAR}, #{istop,jdbcType=INTEGER}, #{replycount,jdbcType=INTEGER},
+    #{upvotecount,jdbcType=INTEGER}, #{browsecount,jdbcType=INTEGER}, #{zoneid,jdbcType=INTEGER},
+    #{isreport,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bbs.domain.Article" >
+    insert into bbs_article_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="articleid != null" >
+        articleId,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="sendtime != null" >
+        sendTime,
+      </if>
+      <if test="sendername != null" >
+        senderName,
+      </if>
+      <if test="istop != null" >
+        isTop,
+      </if>
+      <if test="replycount != null" >
+        replyCount,
+      </if>
+      <if test="upvotecount != null" >
+        upvoteCount,
+      </if>
+      <if test="browsecount != null" >
+        browseCount,
+      </if>
+      <if test="zoneid != null" >
+        zoneId,
+      </if>
+      <if test="isreport != null" >
+        isReport,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="articleid != null" >
+        #{articleid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendername != null" >
+        #{sendername,jdbcType=VARCHAR},
+      </if>
+      <if test="istop != null" >
+        #{istop,jdbcType=INTEGER},
+      </if>
+      <if test="replycount != null" >
+        #{replycount,jdbcType=INTEGER},
+      </if>
+      <if test="upvotecount != null" >
+        #{upvotecount,jdbcType=INTEGER},
+      </if>
+      <if test="browsecount != null" >
+        #{browsecount,jdbcType=INTEGER},
+      </if>
+      <if test="zoneid != null" >
+        #{zoneid,jdbcType=INTEGER},
+      </if>
+      <if test="isreport != null" >
+        #{isreport,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bbs.domain.ArticleExample" resultType="java.lang.Integer" >
+    select count(*) from bbs_article_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bbs_article_table
+    <set >
+      <if test="record.articleid != null" >
+        articleId = #{record.articleid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendtime != null" >
+        sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sendername != null" >
+        senderName = #{record.sendername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.istop != null" >
+        isTop = #{record.istop,jdbcType=INTEGER},
+      </if>
+      <if test="record.replycount != null" >
+        replyCount = #{record.replycount,jdbcType=INTEGER},
+      </if>
+      <if test="record.upvotecount != null" >
+        upvoteCount = #{record.upvotecount,jdbcType=INTEGER},
+      </if>
+      <if test="record.browsecount != null" >
+        browseCount = #{record.browsecount,jdbcType=INTEGER},
+      </if>
+      <if test="record.zoneid != null" >
+        zoneId = #{record.zoneid,jdbcType=INTEGER},
+      </if>
+      <if test="record.isreport != null" >
+        isReport = #{record.isreport,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update bbs_article_table
+    set articleId = #{record.articleid,jdbcType=INTEGER},
+    title = #{record.title,jdbcType=VARCHAR},
+    sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+    senderName = #{record.sendername,jdbcType=VARCHAR},
+    isTop = #{record.istop,jdbcType=INTEGER},
+    replyCount = #{record.replycount,jdbcType=INTEGER},
+    upvoteCount = #{record.upvotecount,jdbcType=INTEGER},
+    browseCount = #{record.browsecount,jdbcType=INTEGER},
+    zoneId = #{record.zoneid,jdbcType=INTEGER},
+    isReport = #{record.isreport,jdbcType=INTEGER},
+    content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bbs_article_table
+    set articleId = #{record.articleid,jdbcType=INTEGER},
+    title = #{record.title,jdbcType=VARCHAR},
+    sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+    senderName = #{record.sendername,jdbcType=VARCHAR},
+    isTop = #{record.istop,jdbcType=INTEGER},
+    replyCount = #{record.replycount,jdbcType=INTEGER},
+    upvoteCount = #{record.upvotecount,jdbcType=INTEGER},
+    browseCount = #{record.browsecount,jdbcType=INTEGER},
+    zoneId = #{record.zoneid,jdbcType=INTEGER},
+    isReport = #{record.isreport,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bbs.domain.Article" >
+    update bbs_article_table
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendername != null" >
+        senderName = #{sendername,jdbcType=VARCHAR},
+      </if>
+      <if test="istop != null" >
+        isTop = #{istop,jdbcType=INTEGER},
+      </if>
+      <if test="replycount != null" >
+        replyCount = #{replycount,jdbcType=INTEGER},
+      </if>
+      <if test="upvotecount != null" >
+        upvoteCount = #{upvotecount,jdbcType=INTEGER},
+      </if>
+      <if test="browsecount != null" >
+        browseCount = #{browsecount,jdbcType=INTEGER},
+      </if>
+      <if test="zoneid != null" >
+        zoneId = #{zoneid,jdbcType=INTEGER},
+      </if>
+      <if test="isreport != null" >
+        isReport = #{isreport,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where articleId = #{articleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bbs.domain.Article" >
+    update bbs_article_table
+    set title = #{title,jdbcType=VARCHAR},
+    sendTime = #{sendtime,jdbcType=TIMESTAMP},
+    senderName = #{sendername,jdbcType=VARCHAR},
+    isTop = #{istop,jdbcType=INTEGER},
+    replyCount = #{replycount,jdbcType=INTEGER},
+    upvoteCount = #{upvotecount,jdbcType=INTEGER},
+    browseCount = #{browsecount,jdbcType=INTEGER},
+    zoneId = #{zoneid,jdbcType=INTEGER},
+    isReport = #{isreport,jdbcType=INTEGER},
+    content = #{content,jdbcType=LONGVARCHAR}
+    where articleId = #{articleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bbs.domain.Article" >
+    update bbs_article_table
+    set title = #{title,jdbcType=VARCHAR},
+      sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      senderName = #{sendername,jdbcType=VARCHAR},
+      isTop = #{istop,jdbcType=INTEGER},
+      replyCount = #{replycount,jdbcType=INTEGER},
+      upvoteCount = #{upvotecount,jdbcType=INTEGER},
+      browseCount = #{browsecount,jdbcType=INTEGER},
+      zoneId = #{zoneid,jdbcType=INTEGER},
+      isReport = #{isreport,jdbcType=INTEGER}
+    where articleId = #{articleid,jdbcType=INTEGER}
+  </update>
+  <select id="getTotalCount" resultType="Integer">
+    select count(1) from bbs_article_table;
+  </select>
+
+    <select id="getTodayCount" resultType="Integer">
+    select count(1) from bbs_article_table where to_days(sendTime) = to_days(now());
+  </select>
+
+  <update id="upvoteChange" parameterType="map" >
+    update bbs_article_table set upvoteCount = upvoteCount + #{i} where articleId = #{articleid}
+  </update>
+
+  <update id="replyChange" parameterType="Integer" >
+    update bbs_article_table set replyCount = replyCount + 1 where articleId = #{articleid}
+  </update>
+
+  <select id="findUpvoteCount" parameterType="Integer" resultType="Integer">
+    select upvoteCount from bbs_article_table where articleId = #{articleid}
+  </select>
+
+  <select id="findReplyCount" parameterType="Integer" resultType="Integer">
+    select replyCount from bbs_article_table where articleId = #{articleid}
+  </select>
+
+  <update id="updateReportStatus" parameterType="Integer">
+    update bbs_article_table set isReport = 1 where articleId = #{articleid}
+  </update>
+</mapper>

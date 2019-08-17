@@ -1,0 +1,51 @@
+body {
+	background: url(../images/bg.jpg) no-repeat;
+	background-position: center top;
+	height: 100%;
+}
+.hm-bbs-info {
+	position: relative;
+}
+.search-box {
+	width: 400px;
+	position: absolute;
+	right:15px;
+	top:30px;
+	background-color: none;
+}
+.search-box .txt {
+	width: 380px;
+	height: 40px;
+}
+.hm-header {
+	height: 350px;
+}
+.hm-bbs-info-in h2 {
+	height: 100px;
+	line-height: 142px;
+}
+.hm-detail-fun {
+	height: 100px;
+	line-height: 142px;
+	margin-top: 0px;
+}
+.new-to-old {
+	margin:0;
+}
+.fixedBar {
+	bottom:173px
+}
+.detail-page-box a, .detail-page-box span {
+	border:none;
+	background:none;
+	padding: 0 2px;
+	font-size: 15px;
+	margin:0px;
+}
+.detail-page-box .new-to-old{
+	border: 1px solid #d9d9d9;
+}
+.detail-page-box {
+	border:none;
+	padding: 9px 15px 9px 20px;
+}

@@ -1,0 +1,7 @@
+com\bbs\controller\CommentController.class
+com\bbs\controller\ReplyController.class
+com\bbs\controller\ArticleController.class
+com\bbs\controller\ReportController.class
+com\bbs\controller\ZoneApplyController.class
+com\bbs\controller\UserController.class
+com\bbs\controller\UpvoteController.class

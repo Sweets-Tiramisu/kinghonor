@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbs.dao.ReportDao" >
+  <resultMap id="BaseResultMap" type="com.bbs.domain.Report" >
+    <id column="reportId" property="reportid" jdbcType="INTEGER" />
+    <result column="reportContent" property="reportcontent" jdbcType="VARCHAR" />
+    <result column="reportTime" property="reporttime" jdbcType="TIMESTAMP" />
+    <result column="reportUserName" property="reportusername" jdbcType="VARCHAR" />
+    <result column="reportStatus" property="reportstatus" jdbcType="INTEGER" />
+    <result column="articleId" property="articleid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    reportId, reportContent, reportTime, reportUserName, reportStatus, articleId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bbs.domain.ReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from bbs_report_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bbs_report_table
+    where reportId = #{reportid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bbs_report_table
+    where reportId = #{reportid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bbs.domain.ReportExample" >
+    delete from bbs_report_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bbs.domain.Report" >
+    insert into bbs_report_table (reportId, reportContent, reportTime, 
+      reportUserName, reportStatus, articleId
+      )
+    values (#{reportid,jdbcType=INTEGER}, #{reportcontent,jdbcType=VARCHAR}, #{reporttime,jdbcType=TIMESTAMP}, 
+      #{reportusername,jdbcType=VARCHAR}, #{reportstatus,jdbcType=INTEGER}, #{articleid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bbs.domain.Report" >
+    insert into bbs_report_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reportid != null" >
+        reportId,
+      </if>
+      <if test="reportcontent != null" >
+        reportContent,
+      </if>
+      <if test="reporttime != null" >
+        reportTime,
+      </if>
+      <if test="reportusername != null" >
+        reportUserName,
+      </if>
+      <if test="reportstatus != null" >
+        reportStatus,
+      </if>
+      <if test="articleid != null" >
+        articleId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reportid != null" >
+        #{reportid,jdbcType=INTEGER},
+      </if>
+      <if test="reportcontent != null" >
+        #{reportcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttime != null" >
+        #{reporttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportusername != null" >
+        #{reportusername,jdbcType=VARCHAR},
+      </if>
+      <if test="reportstatus != null" >
+        #{reportstatus,jdbcType=INTEGER},
+      </if>
+      <if test="articleid != null" >
+        #{articleid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bbs.domain.ReportExample" resultType="java.lang.Integer" >
+    select count(*) from bbs_report_table
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bbs_report_table
+    <set >
+      <if test="record.reportid != null" >
+        reportId = #{record.reportid,jdbcType=INTEGER},
+      </if>
+      <if test="record.reportcontent != null" >
+        reportContent = #{record.reportcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reporttime != null" >
+        reportTime = #{record.reporttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reportusername != null" >
+        reportUserName = #{record.reportusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportstatus != null" >
+        reportStatus = #{record.reportstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.articleid != null" >
+        articleId = #{record.articleid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bbs_report_table
+    set reportId = #{record.reportid,jdbcType=INTEGER},
+      reportContent = #{record.reportcontent,jdbcType=VARCHAR},
+      reportTime = #{record.reporttime,jdbcType=TIMESTAMP},
+      reportUserName = #{record.reportusername,jdbcType=VARCHAR},
+      reportStatus = #{record.reportstatus,jdbcType=INTEGER},
+      articleId = #{record.articleid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bbs.domain.Report" >
+    update bbs_report_table
+    <set >
+      <if test="reportcontent != null" >
+        reportContent = #{reportcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttime != null" >
+        reportTime = #{reporttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportusername != null" >
+        reportUserName = #{reportusername,jdbcType=VARCHAR},
+      </if>
+      <if test="reportstatus != null" >
+        reportStatus = #{reportstatus,jdbcType=INTEGER},
+      </if>
+      <if test="articleid != null" >
+        articleId = #{articleid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where reportId = #{reportid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bbs.domain.Report" >
+    update bbs_report_table
+    set reportContent = #{reportcontent,jdbcType=VARCHAR},
+      reportTime = #{reporttime,jdbcType=TIMESTAMP},
+      reportUserName = #{reportusername,jdbcType=VARCHAR},
+      reportStatus = #{reportstatus,jdbcType=INTEGER},
+      articleId = #{articleid,jdbcType=INTEGER}
+    where reportId = #{reportid,jdbcType=INTEGER}
+  </update>
+</mapper>
